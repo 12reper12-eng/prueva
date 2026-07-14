@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Safegaming Service - Rucoy Online</title>
+<style>
+    * { box-sizing: border-box; }
+
+    body {
+        margin: 0;
+        padding-top: 30px;
+        padding-bottom: 30px;
+        font-family: 'Segoe UI', Arial, sans-serif;
+        color: white;
+        text-align: center;
+        min-height: 100vh;
+        background:
+            radial-gradient(circle at 20% 20%, rgba(0, 242, 255, 0.12) 0%, transparent 40%),
+            radial-gradient(circle at 80% 30%, rgba(255, 215, 0, 0.10) 0%, transparent 45%),
+            radial-gradient(circle at 50% 90%, rgba(37, 211, 102, 0.10) 0%, transparent 50%),
+            linear-gradient(160deg, #030712 0%, #06101e 40%, #0a1a2e 70%, #030712 100%);
+        background-attachment: fixed;
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    body::before {
+        content: "";
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background-image:
+            linear-gradient(rgba(0, 242, 255, 0.04) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 242, 255, 0.04) 1px, transparent 1px);
+        background-size: 40px 40px;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .glow {
+        position: fixed;
+        border-radius: 50%;
+        filter: blur(40px);
+        opacity: 0.35;
+        pointer-events: none;
+        z-index: 0;
+        animation: float 8s ease-in-out infinite;
+    }
+    .glow1 { width: 180px; height: 180px; background: #00f2ff; top: 10%; left: 8%; animation-delay: 0s; }
+    .glow2 { width: 220px; height: 220px; background: #ffd700; top: 60%; right: 10%; animation-delay: 2s; }
+    .glow3 { width: 150px; height: 150px; background: #25D366; bottom: 5%; left: 20%; animation-delay: 4s; }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-25px); }
+    }
+
+    h1 {
+        color: #00f2ff;
+        text-shadow: 0 0 10px #00f2ff, 0 0 25px rgba(0,242,255,0.4);
+        font-size: 32px;
+        margin-bottom: 5px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .subtitle {
+        color: #ffd700;
+        font-weight: bold;
+        margin-bottom: 20px;
+        font-size: 14px;
+        letter-spacing: 1px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .caja {
+        border: 2px solid #00f2ff;
+        padding: 25px;
+        display: inline-block;
+        border-radius: 14px;
+        background: rgba(6,16,30,0.92);
+        box-shadow: 0 0 25px rgba(0,242,255,0.5), inset 0 0 30px rgba(0,242,255,0.03);
+        max-width: 480px;
+        width: 92%;
+        position: relative;
+        z-index: 1;
+        backdrop-filter: blur(4px);
+    }
+
+    label {
+        display: block;
+        text-align: left;
+        margin: 10px 0 5px 0;
+        color: #a0aab5;
+        font-size: 14px;
+    }
+
+    input, select {
+        padding: 10px;
+        width: 100%;
+        border-radius: 5px;
+        border: 1px solid #00f2ff;
+        background: #06101e;
+        color: white;
+        font-size: 16px;
+    }
+
+    input:focus, select:focus {
+        outline: none;
+        box-shadow: 0 0 8px #00f2ff;
+    }
+
+    .resultado-caja {
+        background: rgba(0, 242, 255, 0.1);
+        border: 1px dashed #00f2ff;
+        padding: 15px;
+        margin-top: 20px;
+        border-radius: 5px;
+    }
+
+    .total-oro {
+        color: #ffd700;
+        font-size: 22px;
+        font-weight: bold;
+        text-shadow: 0 0 5px #ffd700;
+    }
+
+    .btn-wa {
+        background: #25D366;
+        color: white;
+        padding: 12px 25px;
+        text-decoration: none;
+        font-weight: bold;
+        border-radius: 5px;
+        display: inline-block;
+        margin-top: 15px;
+        box-shadow: 0 0 10px #25D366;
+        width: 100%;
+        font-size: 16px;
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .btn-wa:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 0 18px #25D366;
+    }
+
+    hr { border-color: #00f2ff; opacity: 0.4; }
+
+    .separador {
+        margin-top: 22px;
+        margin-bottom: 10px;
+        color: #6b7684;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        position: relative;
+    }
+    .separador::before, .separador::after {
+        content: "";
+        display: inline-block;
+        width: 30px;
+        height: 1px;
+        background: #2a3646;
+        vertical-align: middle;
+        margin: 0 8px;
+    }
+
+    .btn-personalizado {
+        display: inline-block;
+        width: 100%;
+        padding: 12px 18px;
+        border-radius: 5px;
+        border: 1px solid #ffd700;
+        background: rgba(255, 215, 0, 0.08);
+        color: #ffd700;
+        font-weight: bold;
+        font-size: 14px;
+        text-decoration: none;
+        box-shadow: 0 0 8px rgba(255, 215, 0, 0.25);
+        transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+    .btn-personalizado:hover {
+        transform: translateY(-2px);
+        background: rgba(255, 215, 0, 0.15);
+        box-shadow: 0 0 16px rgba(255, 215, 0, 0.45);
+    }
+
+    .footer {
+        margin-top: 25px;
+        color: #5a6472;
+        font-size: 12px;
+        line-height: 1.6;
+        position: relative;
+        z-index: 1;
+    }
+</style>
+</head>
+<body>
+
+    <div class="glow glow1"></div>
+    <div class="glow glow2"></div>
+    <div class="glow glow3"></div>
+
+    <div class="caja">
+        <h1>🛡️ SAFEGAMING SERVICE 🛡️</h1>
+        <div class="subtitle">RUCOY ONLINE: SHARE &amp; SKILLEO PROFESIONAL</div>
+        <hr>
+
+        <label>Nombre de tu Personaje:</label>
+        <input type="text" id="personaje" placeholder="Ej. RucoyPro" value="JugadorAnonimo">
+
+        <label>Selecciona el Servicio:</label>
+        <select id="servicio" onchange="calcularTotal()">
+            <option value="300">Skill Normal - $300k / hr</option>
+            <option value="360">Power Training (Ptrain) - $360k / hr</option>
+            <option value="600">Subida de Nivel (Up Lvl) - $600k / hr</option>
+            <option value="1400">Pack Maraton (5h Skill) - 1.4KK total</option>
+            <option value="1700">Pack Ptrain Pro (5h Ptrain) - 1.7KK total</option>
+        </select>
+
+        <div id="caja-horas">
+            <label>Cantidad de Horas:</label>
+            <input type="number" id="horas" value="1" min="1" max="24" oninput="calcularTotal()">
+        </div>
+
+        <div class="resultado-caja">
+            <p style="margin:0 0 5px 0; color:#a0aab5;">Total a pagar estimado:</p>
+            <div class="total-oro" id="precio-final">300k gold</div>
+        </div>
+
+        <a href="#" id="boton-whatsapp" class="btn-wa" target="_blank">
+            💬 APARTAR CUPO POR WHATSAPP
+        </a>
+
+        <div class="separador">¿No encuentras lo que buscas?</div>
+
+        <a href="https://wa.me/584123576579?text=Hola%20Safegaming!%20Quiero%20una%20cotizaci%C3%B3n%20personalizada%20para%20un%20servicio%20que%20no%20veo%20en%20la%20lista."
+           class="btn-personalizado" target="_blank">
+            📩 Envíame un mensaje y obtén una cotización más personalizada
+        </a>
+    </div>
+
+    <div class="footer">
+        Servicio profesional de Skilleo y Share para Rucoy Online<br>
+        Atención directa por WhatsApp: +58 412-3576579
+    </div>
+
+    <script>
+        function calcularTotal() {
+            let personaje = document.getElementById("personaje").value;
+            let servicioSelect = document.getElementById("servicio");
+            let precioBase = parseInt(servicioSelect.value);
+            let nombreServicio = servicioSelect.options[servicioSelect.selectedIndex].text.split('-')[0].trim();
+            let horas = parseInt(document.getElementById("horas").value) || 1;
+            let cajaHoras = document.getElementById("caja-horas");
+
+            let totalK = 0;
+            let textoPrecio = "";
+
+            if (precioBase === 1400 || precioBase === 1700) {
+                cajaHoras.style.display = "none";
+                totalK = precioBase;
+                textoPrecio = (totalK / 1000) + "KK gold";
+            } else {
+                cajaHoras.style.display = "block";
+                totalK = precioBase * horas;
+                if (totalK >= 1000) {
+                    textoPrecio = (totalK / 1000) + "KK gold";
+                } else {
+                    textoPrecio = totalK + "k gold";
+                }
+            }
+
+            document.getElementById("precio-final").innerText = textoPrecio;
+
+            let miTelefono = "584123576579";
+
+            let mensaje = "Hola Safegaming! Vengo de la web. Quiero agendar un cupo:\n\n" +
+                          "Personaje: " + personaje + "\n" +
+                          "Servicio: " + nombreServicio + "\n" +
+                          (precioBase !== 1400 && precioBase !== 1700 ? "Horas: " + horas + "\n" : "") +
+                          "Total Estimado: " + textoPrecio + "\n\n" +
+                          "Tienen disponibilidad ahora mismo?";
+
+            let urlWhatsApp = "https://wa.me/" + miTelefono + "?text=" + encodeURIComponent(mensaje);
+            document.getElementById("boton-whatsapp").href = urlWhatsApp;
+        }
+
+        window.onload = calcularTotal;
+        document.getElementById("personaje").oninput = calcularTotal;
+    </script>
+</body>
+</html>
